@@ -1,0 +1,48 @@
+import 'package:flutter/material.dart';
+import 'package:petrol_ledger/provider/sale_price_collect_provider.dart';
+import 'package:petrol_ledger/repository/sale_price_collect/sqlite_sale_price_collect.dart';
+import 'package:petrol_ledger/screens/sale_price_collect/sale_price_collect_container.dart';
+import 'package:petrol_ledger/utils/extension.dart';
+import 'package:petrol_ledger/utils/ui_state.dart';
+import 'package:provider/provider.dart';
+
+class SalePriceCollectScreen extends StatelessWidget {
+  static const double minAmount = 200;
+  static const double maxAmount = 5000;
+  final bool showInfoView;
+
+  const SalePriceCollectScreen({super.key, this.showInfoView = false});
+
+  void _showAlertMessage(BuildContext context, String message) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      context.showSnackBar(message);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (context) => SalePriceCollectProvider(
+        repository: SQLiteSalePriceCollect(),
+      ),
+      child: Selector<SalePriceCollectProvider, UiState>(
+        selector: (_, provider) => provider.uiState,
+        builder: (context, uiState, child) {
+          if (uiState is ErrorMode) {
+            _showAlertMessage(context, uiState.message);
+          }
+          if (uiState is SuccessMode) {
+            _showAlertMessage(
+                context, 'The sale price was successfully updated');
+            Navigator.pop(context, true);
+          }
+          return child!;
+        },
+        child: Provider<bool>(
+          create: (context) => showInfoView,
+          child: const SalePriceCollectContainer(),
+        ),
+      ),
+    );
+  }
+}

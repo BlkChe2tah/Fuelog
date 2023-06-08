@@ -1,0 +1,38 @@
+name: petrol_ledger
+description: A new Flutter project.
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: '>=2.19.6 <3.0.0'
+
+dependencies:
+  auto_size_text: ^3.0.0
+  flutter:
+    sdk: flutter
+  linked_scroll_controller: ^0.2.0
+  material_symbols_icons: ^4.39.5
+  path: ^1.8.2
+  path_provider: ^2.0.15
+  permission_handler: ^10.2.0
+  provider: ^6.0.5
+  sqflite: ^2.2.8+2
+  tuple: ^2.0.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+  build_runner: ^2.3.3
+  build_web_compilers: ^3.2.7
+  
+
+flutter:
+  uses-material-design: true
+  fonts:
+    - family: anonymous pro
+      fonts:
+        - asset: assets/fonts/anonymous-pro.ttf
+    - family: wix
+      fonts:
+        - asset: assets/fonts/wix.ttf

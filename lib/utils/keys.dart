@@ -1,0 +1,4 @@
+enum Keys {
+  numbers,
+  delete,
+}

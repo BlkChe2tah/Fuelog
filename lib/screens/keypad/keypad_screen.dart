@@ -20,17 +20,17 @@ class KeypadScreen extends StatelessWidget {
           child: Column(
             children: [
               const Expanded(child: KeypadDisplay()),
-              ValueListenableProvider<double>.value(
-                value: keySize,
-                updateShouldNotify: (previous, current) =>
-                    current > 0 && previous != current,
-                child: LayoutBuilder(
-                  builder: (_, constraint) {
-                    keySize.value =
-                        (constraint.maxWidth - (kKeyItemSpacing * 3)) / 4;
-                    return const Keypad();
-                  },
-                ),
+              LayoutBuilder(
+                builder: (_, constraint) {
+                  keySize.value =
+                      (constraint.maxWidth - (kKeyItemSpacing * 3)) / 4;
+                  return ValueListenableProvider.value(
+                    value: keySize,
+                    updateShouldNotify: (previous, current) =>
+                        current > 0 && previous != current,
+                    child: const Keypad(),
+                  );
+                },
               ),
             ],
           ),

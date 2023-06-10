@@ -9,3 +9,10 @@
   * Updating the sale price
   * Sale price history list
 * Converting the sale record to CSV format.
+<p float="left">
+ <img src="flutter_01.png" width="270" height="585">
+ <img src="flutter_02.png" width="270" height="585">
+ <img src="flutter_03.png" width="270" height="585">
+ <img src="flutter_04.png" width="270" height="585">
+ <img src="flutter_05.png" width="270" height="585">
+</p>

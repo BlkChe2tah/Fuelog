@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:petrol_ledger/database/sqlite_sale_database.dart';
+import 'package:petrol_ledger/core/database/sqlite_sale_database.dart';
 import 'package:petrol_ledger/model/sale_price.dart';
 import 'package:petrol_ledger/repository/sale_data/sale_data_repository.dart';
 

@@ -1,9 +1,9 @@
-import 'package:petrol_ledger/database/sqlite_sale_database.dart';
+import 'package:petrol_ledger/core/database/sqlite_sale_database.dart';
 import 'package:petrol_ledger/model/sale.dart';
 import 'package:petrol_ledger/model/sale_item_data.dart';
 import 'package:petrol_ledger/model/sale_price.dart';
 import 'package:petrol_ledger/repository/sale_history/sale_history_repository.dart';
-import 'package:petrol_ledger/utils/sale_query.dart';
+import 'package:petrol_ledger/core/sale_query.dart';
 
 class SQLiteSaleHistory implements SaleHistoryRepository {
   final SQLiteSaleDatabase _database = SQLiteSaleDatabase.instance;

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:petrol_ledger/provider/sale_data_provider.dart';
+import 'package:petrol_ledger/core/provider/sale_data_provider.dart';
 import 'package:petrol_ledger/repository/sale_data/sqlite_sale_data.dart';
-import 'package:petrol_ledger/res/colors.dart';
-import 'package:petrol_ledger/screens/keypad/keypad_screen.dart';
+import 'package:petrol_ledger/core/colors.dart';
+import 'package:petrol_ledger/features/keypad/views/layouts/keypad_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {

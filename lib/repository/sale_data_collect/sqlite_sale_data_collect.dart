@@ -1,4 +1,4 @@
-import 'package:petrol_ledger/database/sqlite_sale_database.dart';
+import 'package:petrol_ledger/core/database/sqlite_sale_database.dart';
 import 'package:petrol_ledger/model/sale.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:petrol_ledger/repository/sale_data_collect/sale_data_collect_repository.dart';

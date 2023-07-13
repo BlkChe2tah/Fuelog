@@ -1,4 +1,6 @@
-class Sale {
+import 'package:equatable/equatable.dart';
+
+class Sale extends Equatable {
   static const String tableName = 'sales';
   static const String columnId = 'id';
   static const String columnName = 'name';
@@ -14,7 +16,10 @@ class Sale {
   final num liter;
   final int createdAt;
 
-  Sale({
+  @override
+  List<Object?> get props => [id, name, salePriceId, amount, liter, createdAt];
+
+  const Sale({
     this.id,
     this.name,
     required this.amount,

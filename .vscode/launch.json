@@ -5,18 +5,18 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "petrol_ledger",
+            "name": "Fuelog",
             "request": "launch",
             "type": "dart"
         },
         {
-            "name": "petrol_ledger (profile mode)",
+            "name": "Fuelog (profile mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile"
         },
         {
-            "name": "petrol_ledger (release mode)",
+            "name": "Fuelog (release mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "release"

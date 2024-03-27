@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:petrol_ledger/core/provider/sale_data_provider.dart';
-import 'package:petrol_ledger/repository/sale_data/sqlite_sale_data.dart';
-import 'package:petrol_ledger/core/colors.dart';
-import 'package:petrol_ledger/features/keypad/views/layouts/keypad_screen.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:petrol_ledger/core/design_system/colors.dart';
+import 'package:petrol_ledger/core/data/repository/latest_sale_price_repository.dart';
+import 'package:petrol_ledger/features/home/home_screen.dart';
+import 'injection_container.dart' as di;
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await di.init();
   runApp(const MainApp());
 }
 
@@ -13,17 +15,23 @@ class MainApp extends StatelessWidget {
   const MainApp({super.key});
   @override
   Widget build(BuildContext context) {
-    WidgetsFlutterBinding.ensureInitialized();
-    return ChangeNotifierProvider(
-      lazy: false,
-      create: (context) => SaleDataProvider(SQLiteSaleData()),
+    return RepositoryProvider(
+      create: (context) => di.$sl<LatestSalePriceRepository>(),
       child: MaterialApp(
         theme: ThemeData(
           useMaterial3: true,
           colorScheme: lightColorScheme,
           fontFamily: 'wix',
         ),
-        home: const KeypadScreen(),
+        home: FutureBuilder(
+            future: di.$sl.allReady(),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.hasData) {
+                return const HomeScreen();
+              } else {
+                return const CircularProgressIndicator();
+              }
+            }),
       ),
     );
   }

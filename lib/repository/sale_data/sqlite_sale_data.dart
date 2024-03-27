@@ -1,28 +1,19 @@
-import 'dart:async';
-import 'package:petrol_ledger/core/database/sqlite_sale_database.dart';
-import 'package:petrol_ledger/model/sale_price.dart';
-import 'package:petrol_ledger/repository/sale_data/sale_data_repository.dart';
+// import 'dart:async';
+// import 'package:petrol_ledger/core/database/data_holder.dart';
+// import 'package:petrol_ledger/core/database/models/sale_price_entity.dart';
+// import 'package:petrol_ledger/repository/sale_data/sale_data_repository.dart';
 
-class SQLiteSaleData implements SaleDataRepository {
-  final SQLiteSaleDatabase database = SQLiteSaleDatabase.instance;
+// class SaleDataRepositoryImpl implements SaleDataRepository {
+//   final DataHolder _database;
 
-  @override
-  Future<SalePrice> queryLatestSalePrice() async {
-    var db = await database.open();
-    try {
-      final List<Map<String, dynamic>> data = await db.query(
-        SalePrice.tableName,
-        orderBy: '${SalePrice.columnCreatedAt} desc',
-        limit: 1,
-      );
-      if (data.isEmpty) {
-        throw Exception("Coludn't load sale price");
-      }
-      return SalePrice.fromMap(data.first);
-    } catch (e) {
-      throw Exception(e);
-    } finally {
-      db.close();
-    }
-  }
-}
+//   SaleDataRepositoryImpl(DataHolder database) : _database = database;
+
+//   @override
+//   Future<SalePriceEntity?> queryLatestSalePrice() async {
+//     try {
+//       return _database.salePriceDAO.getLatestSalePrice();
+//     } catch (e) {
+//       throw Exception(e);
+//     } finally {}
+//   }
+// }

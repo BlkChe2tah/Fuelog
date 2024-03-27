@@ -1,4 +1,0 @@
-enum Keys {
-  numbers,
-  delete,
-}

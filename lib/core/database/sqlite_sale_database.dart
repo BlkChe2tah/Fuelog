@@ -1,63 +1,42 @@
-import 'dart:io';
-
-import 'package:path_provider/path_provider.dart';
-import 'package:petrol_ledger/model/sale.dart';
-import 'package:petrol_ledger/model/sale_price.dart';
-import 'package:petrol_ledger/core/constants.dart';
+import 'package:meta/meta.dart';
+import 'package:petrol_ledger/core/database/dao/sale_dao.dart';
+import 'package:petrol_ledger/core/database/dao/sale_price_dao.dart';
+import 'package:petrol_ledger/core/database/data_holder.dart';
+import 'package:petrol_ledger/core/database/models/sale_entity.dart';
+import 'package:petrol_ledger/core/database/models/sale_price_entity.dart';
+import 'package:petrol_ledger/injection_container.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:path/path.dart' as p;
-import 'package:sqflite/sqflite.dart' as sqlite;
 
-class SQLiteSaleDatabase {
-  static SQLiteSaleDatabase? _saleDatabase;
+@sealed
+class SQLiteSaleDatabase implements DataHolder {
+  static const name = 'petrol_sale.db';
 
-  SQLiteSaleDatabase._();
+  @override
+  late final SalePriceDAO salePriceDAO;
 
-  static SQLiteSaleDatabase get instance {
-    return _saleDatabase ??= SQLiteSaleDatabase._();
+  @override
+  late final SaleDAO saleDAO;
+
+  SQLiteSaleDatabase(Database database) {
+    salePriceDAO = $sl();
+    saleDAO = $sl();
   }
 
-  Future<Database> open() async {
-    try {
-      var dbPath = Platform.isAndroid
-          ? await sqlite.getDatabasesPath()
-          : (await getLibraryDirectory()).path;
-      return await sqlite.openDatabase(
-        p.join(dbPath, dbName),
-        onCreate: _onDBCreate,
-        version: 1,
-      );
-    } catch (e) {
-      throw Exception('$dbName cannot open');
-    }
+  static String createSaleTableScheme() {
+    var saleColumnId = '${SaleEntity.columnId} INTEGER PRIMARY KEY AUTOINCREMENT';
+    var saleColumnName = '${SaleEntity.columnName} TEXT';
+    var saleColumnAmount = '${SaleEntity.columnAmount} INTEGER';
+    var saleColumnSalePrice = '${SaleEntity.columnSalePriceId} INTEGER';
+    var saleColumnLiter = '${SaleEntity.columnLiter} REAL';
+    var saleColumnCreatedAt = '${SaleEntity.columnCreatedAt} INTEGER';
+    var foreignKeyConfig = 'FOREIGN KEY(${SaleEntity.columnSalePriceId}) REFERENCES ${SalePriceEntity.tableName}(${SalePriceEntity.columnId})';
+    return 'CREATE TABLE ${SaleEntity.tableName}($saleColumnId, $saleColumnName, $saleColumnAmount, $saleColumnSalePrice, $saleColumnLiter, $saleColumnCreatedAt, $foreignKeyConfig);';
   }
 
-  Future<void> close() async {
-    await _saleDatabase?.close();
-  }
-
-  Future<void> _onDBCreate(Database db, int version) async {
-    await db.execute(_loadSalePriceTableSchema());
-    await db.execute(_loadSaleTableSchema());
-  }
-
-  String _loadSalePriceTableSchema() {
-    var salePriceColumnId =
-        '${SalePrice.columnId} INTEGER PRIMARY KEY AUTOINCREMENT';
-    var salePriceColumnPrice = '${SalePrice.columnPrice} INTEGER';
-    var salePriceColumnCreatedAt = '${SalePrice.columnCreatedAt} INTEGER';
-    return 'CREATE TABLE ${SalePrice.tableName}($salePriceColumnId, $salePriceColumnPrice, $salePriceColumnCreatedAt);';
-  }
-
-  String _loadSaleTableSchema() {
-    var saleColumnId = '${Sale.columnId} INTEGER PRIMARY KEY AUTOINCREMENT';
-    var saleColumnName = '${Sale.columnName} TEXT';
-    var saleColumnAmount = '${Sale.columnAmount} INTEGER';
-    var saleColumnSalePrice = '${Sale.columnSalePriceId} INTEGER';
-    var saleColumnLiter = '${Sale.columnLiter} REAL';
-    var saleColumnCreatedAt = '${Sale.columnCreatedAt} INTEGER';
-    var foreignKeyConfig =
-        'FOREIGN KEY(${Sale.columnSalePriceId}) REFERENCES ${SalePrice.tableName}(${SalePrice.columnId})';
-    return 'CREATE TABLE ${Sale.tableName}($saleColumnId, $saleColumnName, $saleColumnAmount, $saleColumnSalePrice, $saleColumnLiter, $saleColumnCreatedAt, $foreignKeyConfig);';
+  static String createSalePriceTableScheme() {
+    var salePriceColumnId = '${SalePriceEntity.columnId} INTEGER PRIMARY KEY AUTOINCREMENT';
+    var salePriceColumnPrice = '${SalePriceEntity.columnPrice} INTEGER';
+    var salePriceColumnCreatedAt = '${SalePriceEntity.columnCreatedAt} INTEGER';
+    return 'CREATE TABLE ${SalePriceEntity.tableName}($salePriceColumnId, $salePriceColumnPrice, $salePriceColumnCreatedAt);';
   }
 }

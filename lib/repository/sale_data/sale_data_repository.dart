@@ -1,5 +1,5 @@
-import 'package:petrol_ledger/model/sale_price.dart';
+// import 'package:petrol_ledger/core/database/models/sale_price_entity.dart';
 
-abstract class SaleDataRepository {
-  Future<SalePrice> queryLatestSalePrice();
-}
+// abstract class SaleDataRepository {
+//   Future<SalePriceEntity?> queryLatestSalePrice();
+// }
